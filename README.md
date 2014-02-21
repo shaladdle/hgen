@@ -14,16 +14,16 @@ Using in a Project
 To use this in a project, create an empty .hgenconfig file in the root of your project directory. You may also put your name in the .hgenconfig, in which case it will be inserted into the @author tag in the doxygen header for the file. Note that whatever
 you put in the .hgenconfig file is exactly what will appear after the @author tag.
 
-For example, if your project directory is located at /home/shaladdle/fav-project, you can do
+For example, if your project directory is located at /home/shaladdle/fav_project, you can do
 
 ```
-echo shaladdle >> /home/shaladdle/fav-project/.hgenconfig
+echo shaladdle >> /home/shaladdle/fav_project/.hgenconfig
 ```
 
-Once you do that, you can use hgen to make header files anywhere under fav-project. For example, if you did
+Once you do that, you can use hgen to make header files anywhere under fav_project. For example, if you did
 
 ```
-cd fav-project
+cd fav_project
 mkdir module1
 touch module1/module1.h
 ```
@@ -37,8 +37,8 @@ hgen would create a header file that looks like this:
  *  @author shaladdle
  */
 
-#ifndef __MODULE1_MODULE1_H_
-#define __MODULE1_MODULE1_H_
+#ifndef __FAV_PROJECT_MODULE1_MODULE1_H_
+#define __FAV_PROJECT_MODULE1_MODULE1_H_
 
 #endif
 ```

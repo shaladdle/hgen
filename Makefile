@@ -4,5 +4,8 @@ default:
 install: default
 	cp hgen $(HOME)/bin/
 
+fmt:
+	go fmt
+
 clean:
 	rm -rf hgen

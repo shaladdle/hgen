@@ -45,6 +45,7 @@ func buildName(dstPath string) (relpath string, author string, err error) {
 		return "", "", err
 	}
 
+	parts = append([]string{path.Base(curPath)}, parts...)
 	parts = append(parts, fname)
 	return path.Join(parts...), string(bs), nil
 }
