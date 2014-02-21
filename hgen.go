@@ -23,7 +23,7 @@ func fileExists(dpath string) bool {
 	return !info.IsDir()
 }
 
-func buildName(dstPath string) (string, error) {
+func buildName(dstPath string) (relpath string, author string, err error) {
 	fname := path.Base(dstPath)
 	curPath := path.Dir(dstPath)
 	parts := []string{}
@@ -33,14 +33,20 @@ func buildName(dstPath string) (string, error) {
 		newCurPath := path.Dir(curPath)
 
 		if newCurPath == curPath {
-			fail("Couldn't find %s. Did you forget it?", configFile)
+			fail("Couldn't find %s. Did you create it?", configFile)
 		}
 
 		curPath = newCurPath
 	}
 
+    // TODO: This is ugly. Fix by making a real config file.
+    bs, err := ioutil.ReadFile(path.Join(curPath, configFile))
+    if err != nil {
+        return "", "", err
+    }
+
 	parts = append(parts, fname)
-	return path.Join(parts...), nil
+	return path.Join(parts...), string(bs), nil
 }
 
 func guardFromPath(fpath string) string {
@@ -50,17 +56,23 @@ func guardFromPath(fpath string) string {
 	return "__" + caps + "_"
 }
 
-func genGuard(fpath string) string {
+func genGuard(fpath, author string) string {
 	b := &bytes.Buffer{}
 	fname := path.Base(fpath)
     fnameNoExt := strings.Replace(fname, path.Ext(fname), "", -1)
 	guardName := guardFromPath(fpath)
 
+    if author == "" {
+        author = "[ your name here ]"
+    } else {
+        author = strings.Trim(author, " \n")
+    }
+
 	fmt.Fprintln(b)
 	fmt.Fprintf(b, "/** @file %s\n", fname)
 	fmt.Fprintf(b, " *  @brief Function prototypes for %s.\n", fnameNoExt)
 	fmt.Fprintf(b, " *\n")
-	fmt.Fprintf(b, " *  @author [your name here]\n")
+	fmt.Fprintf(b, " *  @author %s\n", author)
 	fmt.Fprintf(b, " */\n")
 	fmt.Fprintf(b, "\n")
 	fmt.Fprintf(b, "#ifndef %s\n", guardName)
@@ -98,12 +110,12 @@ func main() {
 		fail("Couldn't resolve absolute path of %s", absPath)
 	}
 
-	relPath, err := buildName(absPath)
+	relPath, author, err := buildName(absPath)
 	if err != nil {
 		fail("Error buidling the relative path: %v", err)
 	}
 
-	sGuard := genGuard(relPath)
+	sGuard := genGuard(relPath, author)
 
 	if err := ioutil.WriteFile(dstPath, []byte(sGuard), 0644); err != nil {
 		fail("Error writing the file: %v", err)
