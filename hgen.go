@@ -39,11 +39,11 @@ func buildName(dstPath string) (relpath string, author string, err error) {
 		curPath = newCurPath
 	}
 
-    // TODO: This is ugly. Fix by making a real config file.
-    bs, err := ioutil.ReadFile(path.Join(curPath, configFile))
-    if err != nil {
-        return "", "", err
-    }
+	// TODO: This is ugly. Fix by making a real config file.
+	bs, err := ioutil.ReadFile(path.Join(curPath, configFile))
+	if err != nil {
+		return "", "", err
+	}
 
 	parts = append(parts, fname)
 	return path.Join(parts...), string(bs), nil
@@ -59,14 +59,14 @@ func guardFromPath(fpath string) string {
 func genGuard(fpath, author string) string {
 	b := &bytes.Buffer{}
 	fname := path.Base(fpath)
-    fnameNoExt := strings.Replace(fname, path.Ext(fname), "", -1)
+	fnameNoExt := strings.Replace(fname, path.Ext(fname), "", -1)
 	guardName := guardFromPath(fpath)
 
-    if author == "" {
-        author = "[ your name here ]"
-    } else {
-        author = strings.Trim(author, " \n")
-    }
+	if author == "" {
+		author = "[ your name here ]"
+	} else {
+		author = strings.Trim(author, " \n")
+	}
 
 	fmt.Fprintln(b)
 	fmt.Fprintf(b, "/** @file %s\n", fname)
