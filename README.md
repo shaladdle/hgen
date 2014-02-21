@@ -42,3 +42,9 @@ hgen would create a header file that looks like this:
 ```
 
 The guards themselves are generated using the path to the root of the project. So if your header file is foo/bar/baz.h, your header guard will look like __FOO_BAR_BAZ_H_.
+
+Features I Want
+====
+- Add some config options, like default author
+- Add some command line flags, so you can specify more explicitly how things
+  will end up (module name, author, include commented header guard after #endif)

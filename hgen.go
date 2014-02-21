@@ -53,11 +53,12 @@ func guardFromPath(fpath string) string {
 func genGuard(fpath string) string {
 	b := &bytes.Buffer{}
 	fname := path.Base(fpath)
+    fnameNoExt := strings.Replace(fname, path.Ext(fname), "", -1)
 	guardName := guardFromPath(fpath)
 
 	fmt.Fprintln(b)
 	fmt.Fprintf(b, "/** @file %s\n", fname)
-	fmt.Fprintf(b, " *  @brief Function prototypes for foo.\n")
+	fmt.Fprintf(b, " *  @brief Function prototypes for %s.\n", fnameNoExt)
 	fmt.Fprintf(b, " *\n")
 	fmt.Fprintf(b, " *  @author [your name here]\n")
 	fmt.Fprintf(b, " */\n")
