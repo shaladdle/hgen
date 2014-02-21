@@ -61,13 +61,10 @@ func genGuard(fpath string) string {
 	fmt.Fprintf(b, " *\n")
 	fmt.Fprintf(b, " *  @author [your name here]\n")
 	fmt.Fprintf(b, " */\n")
-	fmt.Fprintln(b)
-
+	fmt.Fprintf(b, "\n")
 	fmt.Fprintf(b, "#ifndef %s\n", guardName)
 	fmt.Fprintf(b, "#define %s\n", guardName)
-
-	fmt.Fprintln(b)
-
+	fmt.Fprintf(b, "\n")
 	fmt.Fprintf(b, "#endif\n")
 
 	return string(b.Bytes())
